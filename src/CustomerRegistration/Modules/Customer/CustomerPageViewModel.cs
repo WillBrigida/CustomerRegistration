@@ -90,18 +90,20 @@ public class CustomerPageViewModel : BaseViewModel
             OpenCustomerDetail(new());
         else
         {
-            DB<CustomerModel>.Add(CustomerModel);
+            if(DB<CustomerModel>.Add(CustomerModel))
+                _ = Shell.Current.ToastAlert("Create");
+
             CloseLastWindow();
         }
     }
 
-    private void OpenCustomerDetail(CustomerModel customer)
+    public void OpenCustomerDetail(CustomerModel customer)
     {
         CloseLastWindow();
 
         CustomerModel = customer;
 
-        var page = new CustomerDetailPage { BindingContext = this };
+        var page = new CustomerDetailPage { BindingContext = this, Title = "cdscdscds" };
         var newWindow = new Window(page);
         App.Current?.OpenWindow(newWindow);
 

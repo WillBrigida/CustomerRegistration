@@ -5,29 +5,33 @@
     xmlns:customer="clr-namespace:CustomerRegistration.Modules.Customer"
     x:Class="CustomerRegistration.Modules.Customer.CustomerPage"
     Title="CustomerPage"
+    Shell.NavBarIsVisible="False"
     x:DataType="customer:CustomerPageViewModel">
 
     <ContentPage.BindingContext>
         <customer:CustomerPageViewModel/>
     </ContentPage.BindingContext>
 
-    <VerticalStackLayout>
+    <Grid>
 
-        <Button
-            VerticalOptions="Center"
-            Command="{Binding OnActionCommand}"
-            CommandParameter="{x:Static customer:eActionType.Create}"/>
+        <VerticalStackLayout>
 
-        <CollectionView
-            SelectedItem="{Binding SelectedItem}"
-            SelectionMode="Single"
-            ItemsSource="{Binding Customers}">
-            <CollectionView.ItemTemplate>
-                <DataTemplate x:DataType="customer:CustomerModel">
-                    <Label Text="{Binding Name}"/>
-                </DataTemplate>
-            </CollectionView.ItemTemplate>
-        </CollectionView>
+            <CollectionView
+                SelectedItem="{Binding SelectedItem}"
+                SelectionMode="Single"
+                ItemsSource="{Binding Customers}">
+                <CollectionView.ItemTemplate>
+                    <DataTemplate x:DataType="customer:CustomerModel">
+                        <Label Text="{Binding Name}"/>
+                    </DataTemplate>
+                </CollectionView.ItemTemplate>
+            </CollectionView>
 
-    </VerticalStackLayout>
+            <Button
+                VerticalOptions="Center"
+                Command="{Binding OnActionCommand}"
+                CommandParameter="{x:Static customer:eActionType.Create}"/>
+        </VerticalStackLayout>
+
+    </Grid>
 </ContentPage>

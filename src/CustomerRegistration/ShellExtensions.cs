@@ -33,6 +33,7 @@ public static class ShellExtensions
             HorizontalOptions = LayoutOptions.Fill,
             VerticalOptions = LayoutOptions.Start,
             MinimumHeightRequest = 60,
+            MaximumWidthRequest = 500,
             StrokeShape = new Microsoft.Maui.Controls.Shapes.RoundRectangle { CornerRadius = 7 }
         };
 
@@ -76,7 +77,7 @@ public static class ShellExtensions
             Margin = new Thickness(10, 5),
             VerticalOptions = LayoutOptions.Start,
             HorizontalOptions = LayoutOptions.Start,
-            TextColor = Colors.White,
+            TextColor = Colors.Black,
             FontSize = 13,
             Text = message
         };
@@ -88,7 +89,7 @@ public static class ShellExtensions
         // Adicionando Grid ao Border
         toast.Content = grid;
 
-        var absoluteLayout = new AbsoluteLayout { InputTransparent = true };
+        var absoluteLayout = new AbsoluteLayout { InputTransparent = true};
         AbsoluteLayout.SetLayoutBounds(toast, new Rect(0, 0, 1, 1));
         AbsoluteLayout.SetLayoutFlags(toast, Microsoft.Maui.Layouts.AbsoluteLayoutFlags.All);
 

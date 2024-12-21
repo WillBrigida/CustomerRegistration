@@ -19,6 +19,8 @@
 	<array>
 		<string>arm64</string>
 	</array>
+	<key>CFBundleIdentifier</key>
+	<string>br.com.willbrigida.customerregistration</string>
 	<!-- Forcing dark theme -->
 	<key>UIUserInterfaceStyle</key>
 	<string>Dark</string>
@@ -37,7 +39,7 @@
 	</array>
 	<key>XSAppIconAssets</key>
 	<string>Assets.xcassets/appicon.appiconset</string>
-	<!-- <key>UIApplicationSceneManifest</key>
+	<key>UIApplicationSceneManifest</key>
 	<dict>
 	<key>UIApplicationSupportsMultipleScenes</key>
 	<true/>
@@ -53,6 +55,6 @@
 			</dict>
 		</array>
 	</dict>
-	</dict> -->
+	</dict>
 </dict>
 </plist>
