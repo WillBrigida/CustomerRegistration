@@ -4,7 +4,7 @@
         xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
         xmlns:customer="clr-namespace:CustomerRegistration.Modules.Customer"
         x:Class="CustomerRegistration.Modules.Customer.CustomerDetailPage"
-        Padding="15,0"
+        Padding="20"
         Title="CustomerDetailPage"
         x:DataType="customer:CustomerPageViewModel">
 
@@ -19,15 +19,12 @@
                 <Entry Placeholder="Lastname"
                        Text="{Binding CustomerModel.Lastname}"/>
                 <Entry Placeholder="Age"
+                       Keyboard="Numeric"
                        Text="{Binding CustomerModel.Age}"/>
                 <Entry Placeholder="Address"
                        Text="{Binding CustomerModel.Address}"/>
 
-                <Grid BackgroundColor="Red"
-                      ColumnDefinitions="Auto,Auto"
-                      HorizontalOptions="Fill"
-                      ColumnSpacing="5">
-
+               
 
                         <Button
                                 Text="Adicionar"
@@ -51,6 +48,7 @@
                                 </Button.Triggers>
                         </Button>
 
+
                         <Button
                                 Grid.Column="1"
                                 Text="Excluir"
@@ -70,7 +68,6 @@
 
                                 </Button.Triggers>
                         </Button>
-                </Grid>
 
         </VerticalStackLayout>
 

@@ -3,6 +3,11 @@ using System.ComponentModel;
 using System.Diagnostics;
 using System.Runtime.CompilerServices;
 using System.Windows.Input;
+#if WINDOWS
+using Microsoft.UI;
+using Microsoft.UI.Windowing;
+using Windows.Graphics;
+#endif
 namespace CustomerRegistration.Modules.Customer;
 
 public class CustomerPageViewModel : BaseViewModel
@@ -68,6 +73,15 @@ public class CustomerPageViewModel : BaseViewModel
         }
     }
 
+    public ICommand SelectedItemCommand => new Command((obj) =>
+    {
+        if (obj is CustomerModel customer)
+        {
+            ActionType = eActionType.Update;
+            OpenCustomerDetail(customer);
+        }
+    });
+
     private void DeleteCustomer()
     {
         if (DB<CustomerModel>.Delete(CustomerModel.Id))
@@ -84,13 +98,15 @@ public class CustomerPageViewModel : BaseViewModel
         CloseLastWindow();
     }
 
+
+
     private void CreateCustomer()
     {
         if (CustomerModel is null)
             OpenCustomerDetail(new());
         else
         {
-            if(DB<CustomerModel>.Add(CustomerModel))
+            if (DB<CustomerModel>.Add(CustomerModel))
                 _ = Shell.Current.ToastAlert("Create");
 
             CloseLastWindow();
@@ -103,23 +119,63 @@ public class CustomerPageViewModel : BaseViewModel
 
         CustomerModel = customer;
 
-        var page = new CustomerDetailPage { BindingContext = this, Title = "cdscdscds" };
+        var page = new CustomerDetailPage { BindingContext = this };
         var newWindow = new Window(page);
+
+        newWindow.Created += (s, e) =>
+        {
+
+#if WINDOWS
+            var nativeWindow = newWindow.Handler?.PlatformView;
+            if (nativeWindow != null)
+            {
+                var windowHandle = WinRT.Interop.WindowNative.GetWindowHandle(nativeWindow);
+                var appWindow = AppWindow.GetFromWindowId(Win32Interop.GetWindowIdFromWindow(windowHandle));
+
+                if (appWindow != null)
+                {
+                    var displayArea = DisplayArea.GetFromWindowId(appWindow.Id, DisplayAreaFallback.Primary);
+
+                    // Define metade do tamanho da tela
+                    var windowWidth = displayArea.WorkArea.Width / 3;
+                    var windowHeight = displayArea.WorkArea.Height / 2;
+
+                    // Redimensiona a janela
+                    appWindow.Resize(new SizeInt32(windowWidth, windowHeight));
+
+                    // Calcula a posição para centralizar a janela
+                    var centerX = (displayArea.WorkArea.Width - windowWidth) / 2;
+                    var centerY = (displayArea.WorkArea.Height - windowHeight) / 2;
+
+                    appWindow.Move(new PointInt32(centerX, centerY));
+                }
+            }
+
+#elif MACCATALYST
+            
+            var screen = UIScreen.MainScreen.Bounds;
+            var width = screen.Width / 2;
+            var height = screen.Height / 2;
+            var x = (screen.Width - width) / 2;
+            var y = (screen.Height - height) / 2;
+
+            newWindow.Frame = new CoreGraphics.CGRect(x, y, width, height);
+#endif
+        };
         App.Current?.OpenWindow(newWindow);
 
         newWindow.Destroying += (s, e) =>
         {
             SelectedItem = null;
             CustomerModel = null;
+            Customers?.Clear();
 
-            if (Customers != null)
-            {
-                Customers.Clear();
-                foreach (var item in DB<CustomerModel>.Get())
-                    Customers.Add(item);
-            }
+            foreach (var item in DB<CustomerModel>.Get())
+                Customers?.Add(item);
         };
+
     }
+
 
     private void CloseLastWindow()
     {

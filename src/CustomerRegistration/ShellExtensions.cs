@@ -67,8 +67,8 @@ public static class ShellExtensions
             VerticalTextAlignment = TextAlignment.Center,
             HorizontalTextAlignment = TextAlignment.Center,
             FontSize = 24, // Tamanho de fonte equivalente a "Title"
-            FontFamily = "Icomoon",
-            Text = "vdfvdf"
+            // FontFamily = "Icomoon",
+            // Text = "vdfvdf"
         };
 
         // Criação do Label Message
