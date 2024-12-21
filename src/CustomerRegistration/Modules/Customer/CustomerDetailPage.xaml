@@ -1,0 +1,77 @@
+<?xml version="1.0" encoding="utf-8" ?>
+<ContentPage
+        xmlns="http://schemas.microsoft.com/dotnet/2021/maui"
+        xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
+        xmlns:customer="clr-namespace:CustomerRegistration.Modules.Customer"
+        x:Class="CustomerRegistration.Modules.Customer.CustomerDetailPage"
+        Padding="15,0"
+        Title="CustomerDetailPage"
+        x:DataType="customer:CustomerPageViewModel">
+
+
+        <VerticalStackLayout
+                Spacing="20"
+                VerticalOptions="Center">
+
+                <Entry
+                        Placeholder="Name"
+                        Text="{Binding CustomerModel.Name}"/>
+                <Entry Placeholder="Lastname"
+                       Text="{Binding CustomerModel.Lastname}"/>
+                <Entry Placeholder="Age"
+                       Text="{Binding CustomerModel.Age}"/>
+                <Entry Placeholder="Address"
+                       Text="{Binding CustomerModel.Address}"/>
+
+                <Grid BackgroundColor="Red"
+                      ColumnDefinitions="Auto,Auto"
+                      HorizontalOptions="Fill"
+                      ColumnSpacing="5">
+
+
+                        <Button
+                                Text="Adicionar"
+                                HorizontalOptions="Fill"
+                                VerticalOptions="Center"
+                                Command="{Binding OnActionCommand}"
+                                CommandParameter="{x:Static customer:eActionType.Create}">
+                                <Button.Triggers>
+                                        <DataTrigger
+                                                Binding="{Binding ActionType}"
+                                                TargetType="Button"
+                                                Value="{x:Static customer:eActionType.Update}">
+                                                <Setter
+                                                        Property="Text"
+                                                        Value="Salvar"/>
+                                                <Setter
+                                                        Property="CommandParameter"
+                                                        Value="{x:Static customer:eActionType.Update}"/>
+                                        </DataTrigger>
+
+                                </Button.Triggers>
+                        </Button>
+
+                        <Button
+                                Grid.Column="1"
+                                Text="Excluir"
+                                HorizontalOptions="Fill"
+                                VerticalOptions="Center"
+                                Command="{Binding OnActionCommand}"
+                                CommandParameter="{x:Static customer:eActionType.Delete}">
+                                <Button.Triggers>
+                                        <DataTrigger
+                                                Binding="{Binding ActionType}"
+                                                TargetType="Button"
+                                                Value="{x:Static customer:eActionType.Create}">
+                                                <Setter
+                                                        Property="IsVisible"
+                                                        Value="false"/>
+                                        </DataTrigger>
+
+                                </Button.Triggers>
+                        </Button>
+                </Grid>
+
+        </VerticalStackLayout>
+
+</ContentPage>
