@@ -1,6 +1,7 @@
 using System;
 using System.Collections.ObjectModel;
 using CustomerRegistration.Modules.Customer;
+using CustomerRegistration.Modules.Utils;
 using Xunit;
 
 namespace CustomerRegistration.Tests;
@@ -90,7 +91,7 @@ public class CustomerPageViewModelTests
 
         // Act
         _viewModel.OnActionCommand.Execute(eActionType.Update);
-        _viewModel.SelectedItem = customer;
+        _viewModel.SelectedItemCommand.Execute(customer);
 
         // Assert
         Assert.Equal(customer.Name, _viewModel.CustomerModel?.Name);

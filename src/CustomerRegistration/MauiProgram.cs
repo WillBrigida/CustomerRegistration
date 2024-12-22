@@ -61,9 +61,21 @@ public static class MauiProgram
     Microsoft.Maui.Handlers.WindowHandler.Mapper.AppendToMapping("FullScreen", (handler, view) =>
     {
         var nativeWindow = handler.PlatformView as UIWindow;
-        if (nativeWindow != null)
+        if (nativeWindow is UIWindow uiWindow)
         {
-            nativeWindow.WindowScene?.Titlebar?.PerformSelector(new Selector("toggleFullScreen:"));
+			var scene = uiWindow.WindowScene;
+            if (scene != null)
+            {
+                // Definindo o tamanho inicial e centralizando
+                scene.SizeRestrictions.MinimumSize = new CoreGraphics.CGSize(1920, 1080);
+                scene.SizeRestrictions.MaximumSize = new CoreGraphics.CGSize(1920, 1080);
+
+                // Opcional: Ajusta a posição da janela no centro
+                uiWindow.Center = new CoreGraphics.CGPoint(
+                    UIScreen.MainScreen.Bounds.Width / 2,
+                    UIScreen.MainScreen.Bounds.Height / 2
+                );
+            }
         }
     });
 #endif

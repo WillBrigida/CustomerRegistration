@@ -19,6 +19,7 @@
                 <Entry Placeholder="Lastname"
                        Text="{Binding CustomerModel.Lastname}"/>
                 <Entry Placeholder="Age"
+                        TextChanged="Entry_TextChanged"
                        Keyboard="Numeric"
                        Text="{Binding CustomerModel.Age}"/>
                 <Entry Placeholder="Address"

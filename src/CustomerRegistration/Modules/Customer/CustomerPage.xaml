@@ -12,11 +12,70 @@
         <customer:CustomerPageViewModel/>
     </ContentPage.BindingContext>
 
-    <Grid>
+    <Grid Margin="80,50">
 
-        <VerticalStackLayout x:Name="VerticalStackLayout">
+        <Label
+            FontAttributes="Bold"
+            FontSize="50"
+            Text="Clientes"/>
 
-            <!-- <CollectionView
+        <Border
+            x:Name="addButton"
+            ZIndex="1"
+            StrokeShape="RoundRectangle 10"
+            StrokeThickness="1.5"
+            Stroke="Transparent"
+            VerticalOptions="Start"
+            HorizontalOptions="End"
+            Padding="10,10,30,10">
+            
+            <Grid
+                ColumnSpacing="15"
+                ColumnDefinitions="*,*"
+                VerticalOptions="Start"
+                HorizontalOptions="End">
+
+                <Path
+                    x:Name="addButtonPath"
+                    Aspect="Uniform"
+                    VerticalOptions="Center"
+                    Data="M19 11h-6V5h-2v6H5v2h6v6h2v-6h6z"
+                    Fill="#ffffff"
+                    HeightRequest="20"
+                    HorizontalOptions="Center"
+                    Margin="15"
+                    StrokeThickness="0"
+                    WidthRequest="20"/>
+
+                <Label
+                    x:Name="addButtonLabel"
+                    VerticalOptions="Center"
+                    Grid.Column="1"
+                    FontSize="Subtitle"
+                    Text="Add"/>
+
+                <Grid.GestureRecognizers>
+                    <TapGestureRecognizer
+                        Command="{Binding OnActionCommand}"
+                        CommandParameter="{x:Static customer:eActionType.Create}"/>
+                    <PointerGestureRecognizer
+                        PointerEntered="OnPointerEntered"
+                        PointerExited="OnPointerExited">
+                    </PointerGestureRecognizer>
+                </Grid.GestureRecognizers>
+            </Grid>
+        </Border>
+
+        <ScrollView>
+
+            <!--  SVG PATH ICON  -->
+            <VerticalStackLayout
+                Margin="50"
+                x:Name="VerticalStackLayout"
+                VerticalOptions="Center"
+                HorizontalOptions="Center">
+
+                <!-- <CollectionView
                 SelectedItem="{Binding SelectedItem}"
                 SelectionMode="Single"      
                 ItemsSource="{Binding Customers}">
@@ -27,8 +86,35 @@
                 </CollectionView.ItemTemplate>
             </CollectionView> -->
 
-            <VerticalStackLayout BindableLayout.ItemsSource="{Binding Customers}">
-                <!-- <BindableLayout.ItemsSource>
+                <HorizontalStackLayout BackgroundColor="#25ffffff">
+                    <BindableLayout.ItemsSource>
+                        <x:Array Type="{x:Type x:String}">
+                            <x:String>-</x:String>
+                            <x:String>Id</x:String>
+                            <x:String>Nome Completo</x:String>
+                            <x:String>Idade</x:String>
+                            <x:String>Endereço</x:String>
+                        </x:Array>
+                    </BindableLayout.ItemsSource>
+                    <BindableLayout.ItemTemplate>
+                        <DataTemplate>
+                            <Grid
+                                HeightRequest="60"
+                                ColumnDefinitions="200">
+                                <Label
+                                    HorizontalOptions="Center"
+                                    VerticalOptions="Center"
+                                    FontSize="Subtitle"
+                                    FontAttributes="Bold"
+                                    Text="{Binding .}"/>
+
+                            </Grid>
+                        </DataTemplate>
+                    </BindableLayout.ItemTemplate>
+                </HorizontalStackLayout>
+
+                <VerticalStackLayout BindableLayout.ItemsSource="{Binding Customers}">
+                    <!-- <BindableLayout.ItemsSource>
                     <x:Array Type="{x:Type x:String}">
                         <x:String>Baboon</x:String>
                         <x:String>Capuchin Monkey</x:String>
@@ -39,25 +125,85 @@
                         <x:String>Japanese Macaque</x:String>
                     </x:Array>
                 </BindableLayout.ItemsSource> -->
-                <BindableLayout.ItemTemplate>
-                    <DataTemplate x:DataType="{x:Type customer:CustomerModel}">
-                        <Grid>
+                    <BindableLayout.ItemTemplate>
+                        <DataTemplate x:DataType="{x:Type customer:CustomerModel}">
+                            <Grid ColumnDefinitions="200,200,200,200, 200">
 
-                            <Label Text="{Binding Name}"/>
-                            <Grid.GestureRecognizers>
-                                <TapGestureRecognizer Command="{Binding BindingContext.SelectedItemCommand, Source={x:Reference VerticalStackLayout}}"
-                                        CommandParameter="{Binding .}"/>
-                            </Grid.GestureRecognizers>
-                        </Grid>
-                    </DataTemplate>
-                </BindableLayout.ItemTemplate>
+                                <BoxView HeightRequest="1"
+                                         BackgroundColor="Transparent"
+                                         Color="#35ffffff"
+                                         HorizontalOptions="Fill"
+                                         VerticalOptions="End"
+                                         Grid.ColumnSpan="5"/>
+                                <Path
+                                    Aspect="Uniform"
+                                    VerticalOptions="Center"
+                                    Data="M12 2a5 5 0 1 0 5 5 5 5 0 0 0-5-5zm0 8a3 3 0 1 1 3-3 3 3 0 0 1-3 3zm9 11v-1a7 7 0 0 0-7-7h-4a7 7 0 0 0-7 7v1h2v-1a5 5 0 0 1 5-5h4a5 5 0 0 1 5 5v1z"
+                                    Fill="#50ffffff"
+                                    HeightRequest="35"
+                                    HorizontalOptions="Center"
+                                    Margin="15"
+                                    StrokeThickness="0"
+                                    WidthRequest="35"/>
+
+                                <Label
+                                    Grid.Column="1"
+                                    HorizontalOptions="Center"
+                                    Text="{Binding Id}"
+                                    VerticalOptions="Center"/>
+
+                                <Label
+                                    VerticalOptions="Center"
+                                    HorizontalOptions="Center"
+                                    FontSize="Subtitle"
+                                    Grid.Column="2"
+                                    LineBreakMode="MiddleTruncation">
+                                    <Label.FormattedText>
+                                        <FormattedString>
+                                            <Span  Text="{Binding Name}  "/>
+                                            <Span  Text=" "/>
+                                            <Span  Text="{Binding Lastname} "/>
+                                        </FormattedString>
+                                    </Label.FormattedText>
+                                </Label>
+
+                                <!-- <Label Grid.Column="2"
+                                   HorizontalOptions="Start"
+                                   VerticalOptions="Center">
+                                <Label.FormattedText>
+                                    <FormattedString>
+                                        <Span Text="{Binding Name}"/>
+                                        <Span Text="{Binding Lastname}"/>
+                                    </FormattedString>
+                                </Label.FormattedText>
+                            </Label>
+                            <Label Grid.Column="2"
+                                   Text="{Binding Lastname}"
+                                   VerticalOptions="Center"/> -->
+                                <Label HorizontalOptions="Center"
+                                       FontSize="Subtitle"
+                                       Grid.Column="3"
+                                       Text="{Binding Age}"
+                                       VerticalOptions="Center"/>
+
+                                <Label HorizontalOptions="Center"
+                                       FontSize="Subtitle"
+                                       Grid.Column="4"
+                                       Text="{Binding Address}"
+                                       VerticalOptions="Center"/>
+
+
+                                <Grid.GestureRecognizers>
+                                    <TapGestureRecognizer Command="{Binding BindingContext.SelectedItemCommand, Source={x:Reference VerticalStackLayout}}"
+                                                          CommandParameter="{Binding .}"/>
+                                </Grid.GestureRecognizers>
+                            </Grid>
+                        </DataTemplate>
+                    </BindableLayout.ItemTemplate>
+                </VerticalStackLayout>
+
+
             </VerticalStackLayout>
-
-            <Button
-                VerticalOptions="Center"
-                Command="{Binding OnActionCommand}"
-                CommandParameter="{x:Static customer:eActionType.Create}"/>
-        </VerticalStackLayout>
-
+        </ScrollView>
     </Grid>
 </ContentPage>

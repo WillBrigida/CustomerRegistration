@@ -12,7 +12,6 @@ public static class ShellExtensions
 
         stack = null;
 
-
     }
 
     public static async Task ToastAlert(this Shell shell, string message, TimeSpan timeSpan = default)
@@ -32,7 +31,7 @@ public static class ShellExtensions
             Margin = new Thickness(5, 10),
             HorizontalOptions = LayoutOptions.Fill,
             VerticalOptions = LayoutOptions.Start,
-            MinimumHeightRequest = 60,
+            MinimumHeightRequest = 100,
             MaximumWidthRequest = 500,
             StrokeShape = new Microsoft.Maui.Controls.Shapes.RoundRectangle { CornerRadius = 7 }
         };
@@ -78,7 +77,7 @@ public static class ShellExtensions
             VerticalOptions = LayoutOptions.Start,
             HorizontalOptions = LayoutOptions.Start,
             TextColor = Colors.Black,
-            FontSize = 13,
+            FontSize = 20,
             Text = message
         };
 
