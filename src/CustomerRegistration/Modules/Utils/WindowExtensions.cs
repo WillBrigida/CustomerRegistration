@@ -15,46 +15,55 @@ public static class WindowExtensions
 {
     public static Microsoft.Maui.Controls.Window CenteredWindow(this Microsoft.Maui.Controls.Window window)
     {
-        #if WINDOWS
-            var nativeWindow = window.Handler?.PlatformView;
-            if (nativeWindow != null)
-            {
-                var windowHandle = WinRT.Interop.WindowNative.GetWindowHandle(nativeWindow);
-                var appWindow = AppWindow.GetFromWindowId(Win32Interop.GetWindowIdFromWindow(windowHandle));
+        window.Created += (s, e) =>
+        {
 
-                if (appWindow != null)
+            #if WINDOWS
+                var nativeWindow = (Microsoft.UI.Xaml.Window)window.Handler.PlatformView;
+                if (nativeWindow != null)
                 {
-                    var displayArea = DisplayArea.GetFromWindowId(appWindow.Id, DisplayAreaFallback.Primary);
+                    var windowHandle = WinRT.Interop.WindowNative.GetWindowHandle(nativeWindow);
+                    var appWindow = AppWindow.GetFromWindowId(Win32Interop.GetWindowIdFromWindow(windowHandle));
 
-                    // Define metade do tamanho da tela
-                    var windowWidth = displayArea.WorkArea.Width / 3;
-                    var windowHeight = displayArea.WorkArea.Height / 2;
+                    if (appWindow != null)
+                    {
+                        var displayArea = DisplayArea.GetFromWindowId(appWindow.Id, DisplayAreaFallback.Primary);
 
-                    // Redimensiona a janela
-                    appWindow.Resize(new SizeInt32(windowWidth, windowHeight));
+                        // Define metade do tamanho da tela
+                        var windowWidth = displayArea.WorkArea.Width / 3;
+                        var windowHeight = displayArea.WorkArea.Height / 1;
 
-                    // Calcula a posição para centralizar a janela
-                    var centerX = (displayArea.WorkArea.Width - windowWidth) / 2;
-                    var centerY = (displayArea.WorkArea.Height - windowHeight) / 2;
+                        // Redimensiona a janela
+                        appWindow.Resize(new SizeInt32(windowWidth, windowHeight));
 
-                    appWindow.Move(new PointInt32(centerX, centerY));
+                        // Calcula a posição para centralizar a janela
+                        var centerX = (displayArea.WorkArea.Width - windowWidth) / 2;
+                        var centerY = (displayArea.WorkArea.Height - windowHeight) / 2;
+
+                        appWindow.Move(new PointInt32(centerX, centerY));
+                    }
                 }
-            }
 
 #elif MACCATALYST
-             window.Created += (s, e) =>
-            {
-                var screen = UIScreen.MainScreen.Bounds;
-                var width = screen.Width / 2;
-                var height = screen.Height / 2;
-                var x = (screen.Width - width) / 2;
-                var y = (screen.Height - height) / 2;
+                window.Created += (s, e) =>
+                {
+                    var screen = UIScreen.MainScreen.Bounds;
+                    var width = screen.Width / 2;
+                    var height = screen.Height / 2;
+                    var x = (screen.Width - width) / 2;
+                    var y = (screen.Height - height) / 2;
 
-                // var nsWindow = Platform.GetCurrentWindow(newWindow).WindowScene.Windows[0];
-                // nsWindow.SetFrame(new CGRect(x, y, width, height), true);
-            };
+                    // var nsWindow = Platform.GetCurrentWindow(newWindow).WindowScene.Windows[0];
+                    // nsWindow.SetFrame(new CGRect(x, y, width, height), true);
+                };
 #endif
+
+        
+
+        };
+
         return window;
+
     }
 
 }

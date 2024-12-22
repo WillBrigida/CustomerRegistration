@@ -35,7 +35,7 @@ public class CustomerPageViewModel : BaseViewModel
     {
         var customer = DB<CustomerModel>.Get();
 
-        if(!customer.Any())
+        if (!customer.Any())
         {
             DB<CustomerModel>.Add(new CustomerModel { Name = "Arthur", Lastname = "Silva", Age = 30, Address = "Rua 1" });
             DB<CustomerModel>.Add(new CustomerModel { Name = "Claudia", Lastname = "Bezerra", Age = 25, Address = "Rua 2" });
@@ -60,30 +60,39 @@ public class CustomerPageViewModel : BaseViewModel
         }
     }
 
-    public ICommand SelectedItemCommand => new Command((obj) =>
+    public ICommand SelectedItemCommand => new Command(async (obj) =>
     {
         if (obj is CustomerModel customer)
         {
             ActionType = eActionType.Update;
             OpenCustomerDetail(customer);
         }
+
+
     });
 
     private void DeleteCustomer()
     {
         if (DB<CustomerModel>.Delete(CustomerModel.Id))
-            _ = Shell.Current.ToastAlert("Delete");
+            _ = Shell.Current.ToastAlert("Cliente excluido com sucesso");
 
         CloseLastWindow();
     }
 
     private void UpdateCustomer()
     {
-        if (DB<CustomerModel>.Update(CustomerModel))
-            _ = Shell.Current.ToastAlert("Update");
+        if (Vaidate)
+        {
+            if (DB<CustomerModel>.Update(CustomerModel))
+            _ = Shell.Current.ToastAlert("Cliente ataulizado com sucesso");
 
-        CloseLastWindow();
+            CloseLastWindow();
+            return;
+        }
+
+            _ = Shell.Current.ToastAlert("O preenchimento de todos os campos é obrigatório", TimeSpan.FromSeconds(4), false);
     }
+
 
     private void CreateCustomer()
     {
@@ -91,10 +100,15 @@ public class CustomerPageViewModel : BaseViewModel
             OpenCustomerDetail(new());
         else
         {
-            if (DB<CustomerModel>.Add(CustomerModel))
-                _ = Shell.Current.ToastAlert("Create");
+            if (Vaidate)
+            {
+                if (DB<CustomerModel>.Add(CustomerModel))
+                    _ = Shell.Current.ToastAlert("Novo cliente registrado com sucesso");
 
-            CloseLastWindow();
+                CloseLastWindow();
+                return;
+            }
+            _ = Shell.Current.ToastAlert("O preenchimento de todos os campos é obrigatório", TimeSpan.FromSeconds(4), false);
         }
     }
 
@@ -127,11 +141,10 @@ public class CustomerPageViewModel : BaseViewModel
         if (lastWindow != null && Application.Current!.Windows.Count > 1)
             Application.Current.CloseWindow(lastWindow);
     }
+
+    private bool Vaidate =>
+        !string.IsNullOrEmpty(CustomerModel!.Name) &&
+        !string.IsNullOrEmpty(CustomerModel!.Lastname) &&
+        CustomerModel!.Age > 0 &&
+        !string.IsNullOrEmpty(CustomerModel!.Address);
 }
-
-
-
-
-
-
-

@@ -28,7 +28,7 @@
             VerticalOptions="Start"
             HorizontalOptions="End"
             Padding="10,10,30,10">
-            
+
             <Grid
                 ColumnSpacing="15"
                 ColumnDefinitions="*,*"
@@ -68,25 +68,15 @@
 
         <ScrollView>
 
-            <!--  SVG PATH ICON  -->
             <VerticalStackLayout
                 Margin="50"
                 x:Name="VerticalStackLayout"
                 VerticalOptions="Center"
                 HorizontalOptions="Center">
 
-                <!-- <CollectionView
-                SelectedItem="{Binding SelectedItem}"
-                SelectionMode="Single"      
-                ItemsSource="{Binding Customers}">
-                <CollectionView.ItemTemplate>
-                    <DataTemplate x:DataType="customer:CustomerModel">
-                        <Label Text="{Binding Name}"/>
-                    </DataTemplate>
-                </CollectionView.ItemTemplate>
-            </CollectionView> -->
-
-                <HorizontalStackLayout BackgroundColor="#25ffffff">
+                <HorizontalStackLayout 
+                    IsVisible="True"
+                    BackgroundColor="#25ffffff">
                     <BindableLayout.ItemsSource>
                         <x:Array Type="{x:Type x:String}">
                             <x:String>-</x:String>
@@ -111,30 +101,33 @@
                             </Grid>
                         </DataTemplate>
                     </BindableLayout.ItemTemplate>
+                    <HorizontalStackLayout.Triggers>
+                        <DataTrigger
+                            Binding="{Binding Customers.Count}"
+                            TargetType="HorizontalStackLayout"
+                            Value="0">
+                            <Setter
+                                Property="IsVisible"
+                                Value="False"/>
+                        </DataTrigger>
+
+                    </HorizontalStackLayout.Triggers>
                 </HorizontalStackLayout>
 
                 <VerticalStackLayout BindableLayout.ItemsSource="{Binding Customers}">
-                    <!-- <BindableLayout.ItemsSource>
-                    <x:Array Type="{x:Type x:String}">
-                        <x:String>Baboon</x:String>
-                        <x:String>Capuchin Monkey</x:String>
-                        <x:String>Blue Monkey</x:String>
-                        <x:String>Squirrel Monkey</x:String>
-                        <x:String>Golden Lion Tamarin</x:String>
-                    <x:String>Howler Monkey</x:String>
-                        <x:String>Japanese Macaque</x:String>
-                    </x:Array>
-                </BindableLayout.ItemsSource> -->
+
                     <BindableLayout.ItemTemplate>
                         <DataTemplate x:DataType="{x:Type customer:CustomerModel}">
                             <Grid ColumnDefinitions="200,200,200,200, 200">
 
-                                <BoxView HeightRequest="1"
-                                         BackgroundColor="Transparent"
-                                         Color="#35ffffff"
-                                         HorizontalOptions="Fill"
-                                         VerticalOptions="End"
-                                         Grid.ColumnSpan="5"/>
+                                <BoxView
+                                    HeightRequest="1"
+                                    BackgroundColor="Transparent"
+                                    Color="#35ffffff"
+                                    HorizontalOptions="Fill"
+                                    VerticalOptions="End"
+                                    Grid.ColumnSpan="5"/>
+
                                 <Path
                                     Aspect="Uniform"
                                     VerticalOptions="Center"
@@ -167,30 +160,19 @@
                                     </Label.FormattedText>
                                 </Label>
 
-                                <!-- <Label Grid.Column="2"
-                                   HorizontalOptions="Start"
-                                   VerticalOptions="Center">
-                                <Label.FormattedText>
-                                    <FormattedString>
-                                        <Span Text="{Binding Name}"/>
-                                        <Span Text="{Binding Lastname}"/>
-                                    </FormattedString>
-                                </Label.FormattedText>
-                            </Label>
-                            <Label Grid.Column="2"
-                                   Text="{Binding Lastname}"
-                                   VerticalOptions="Center"/> -->
                                 <Label HorizontalOptions="Center"
                                        FontSize="Subtitle"
                                        Grid.Column="3"
                                        Text="{Binding Age}"
-                                       VerticalOptions="Center"/>
+                                       VerticalOptions="Center"
+                                       LineBreakMode="MiddleTruncation"/>
 
                                 <Label HorizontalOptions="Center"
                                        FontSize="Subtitle"
                                        Grid.Column="4"
                                        Text="{Binding Address}"
-                                       VerticalOptions="Center"/>
+                                       VerticalOptions="Center"
+                                       LineBreakMode="MiddleTruncation"/>
 
 
                                 <Grid.GestureRecognizers>
@@ -200,7 +182,30 @@
                             </Grid>
                         </DataTemplate>
                     </BindableLayout.ItemTemplate>
+                    <BindableLayout.EmptyView>
+                        <VerticalStackLayout>
+                            <Path
+                                Aspect="Uniform"
+                                VerticalOptions="Center"
+                                Data="M12 2a5 5 0 1 0 5 5 5 5 0 0 0-5-5zm0 8a3 3 0 1 1 3-3 3 3 0 0 1-3 3zm9 11v-1a7 7 0 0 0-7-7h-4a7 7 0 0 0-7 7v1h2v-1a5 5 0 0 1 5-5h4a5 5 0 0 1 5 5v1z"
+                                Fill="#50ffffff"
+                                HeightRequest="100"
+                                HorizontalOptions="Center"
+                                Margin="15"
+                                StrokeThickness="0"
+                                WidthRequest="100"/>
+
+                            <Label
+                                HorizontalOptions="Center"
+                                Text="Não há clientes cadastrados"/>
+                        </VerticalStackLayout>
+                    </BindableLayout.EmptyView>
+
+
+
                 </VerticalStackLayout>
+
+
 
 
             </VerticalStackLayout>

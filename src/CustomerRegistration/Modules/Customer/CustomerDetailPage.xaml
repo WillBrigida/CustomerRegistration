@@ -5,32 +5,64 @@
         xmlns:customer="clr-namespace:CustomerRegistration.Modules.Customer"
         x:Class="CustomerRegistration.Modules.Customer.CustomerDetailPage"
         Padding="20"
+        BackgroundColor="#141414"
         Title="CustomerDetailPage"
         x:DataType="customer:CustomerPageViewModel">
 
+        <Grid>
+                <VerticalStackLayout
+                        Margin="0,-100,0,0"
+                        Spacing="20"
+                        VerticalOptions="Center">
 
-        <VerticalStackLayout
-                Spacing="20"
-                VerticalOptions="Center">
+                        <Path
+                                Aspect="Uniform"
+                                VerticalOptions="Center"
+                                Data="M12 2a5 5 0 1 0 5 5 5 5 0 0 0-5-5zm0 8a3 3 0 1 1 3-3 3 3 0 0 1-3 3zm9 11v-1a7 7 0 0 0-7-7h-4a7 7 0 0 0-7 7v1h2v-1a5 5 0 0 1 5-5h4a5 5 0 0 1 5 5v1z"
+                                Fill="#50ffffff"
+                                HeightRequest="100"
+                                HorizontalOptions="Center"
+                                Margin="15"
+                                StrokeThickness="0"
+                                WidthRequest="100"/>
 
-                <Entry
-                        Placeholder="Name"
-                        Text="{Binding CustomerModel.Name}"/>
-                <Entry Placeholder="Lastname"
-                       Text="{Binding CustomerModel.Lastname}"/>
-                <Entry Placeholder="Age"
-                        TextChanged="Entry_TextChanged"
-                       Keyboard="Numeric"
-                       Text="{Binding CustomerModel.Age}"/>
-                <Entry Placeholder="Address"
-                       Text="{Binding CustomerModel.Address}"/>
+                        <Entry
+                                MaxLength="50"
+                                FontSize="Subtitle"
+                                HeightRequest="50"
+                                Placeholder="Nome"
+                                Text="{Binding CustomerModel.Name}"/>
 
-               
+                        <Entry
+                                 MaxLength="50"
+                                FontSize="Subtitle"
+                                HeightRequest="50"
+                                Placeholder="Sobrenome"
+                                Text="{Binding CustomerModel.Lastname}"/>
+                        <Entry
+                                MaxLength="3"
+                                FontSize="Subtitle"
+                                HeightRequest="50"
+                                Placeholder="Idade"
+                                TextChanged="Entry_TextChanged"
+                                Keyboard="Numeric"
+                                Text="{Binding CustomerModel.Age}"/>
+                        <Entry
+                                MaxLength="200"
+                                FontSize="Subtitle"
+                                HeightRequest="50"
+                                Placeholder="Endereço"
+                                Text="{Binding CustomerModel.Address}"/>
 
                         <Button
                                 Text="Adicionar"
                                 HorizontalOptions="Fill"
+                                BackgroundColor="White"
+                                TextColor="Black"
                                 VerticalOptions="Center"
+                                HeightRequest="60"
+                                Grid.Column="1"
+                                FontSize="Subtitle"
                                 Command="{Binding OnActionCommand}"
                                 CommandParameter="{x:Static customer:eActionType.Create}">
                                 <Button.Triggers>
@@ -51,8 +83,14 @@
 
 
                         <Button
+                                BackgroundColor="Transparent"
+                                BorderColor="White"
+                                BorderWidth="1.5"
+                                HeightRequest="60"
                                 Grid.Column="1"
+                                FontSize="Subtitle"
                                 Text="Excluir"
+                                TextColor="White"
                                 HorizontalOptions="Fill"
                                 VerticalOptions="Center"
                                 Command="{Binding OnActionCommand}"
@@ -70,6 +108,6 @@
                                 </Button.Triggers>
                         </Button>
 
-        </VerticalStackLayout>
-
+                </VerticalStackLayout>
+        </Grid>
 </ContentPage>

@@ -14,7 +14,7 @@ public static class ShellExtensions
 
     }
 
-    public static async Task ToastAlert(this Shell shell, string message, TimeSpan timeSpan = default)
+    public static async Task ToastAlert(this Shell shell, string message, TimeSpan timeSpan = default, bool isCurrentPage = true)
     {
         if (timeSpan == default)
         {
@@ -88,11 +88,15 @@ public static class ShellExtensions
         // Adicionando Grid ao Border
         toast.Content = grid;
 
-        var absoluteLayout = new AbsoluteLayout { InputTransparent = true};
+        var absoluteLayout = new AbsoluteLayout { InputTransparent = true };
         AbsoluteLayout.SetLayoutBounds(toast, new Rect(0, 0, 1, 1));
         AbsoluteLayout.SetLayoutFlags(toast, Microsoft.Maui.Layouts.AbsoluteLayoutFlags.All);
 
         var currentPage = shell.CurrentPage as ContentPage;
+        
+        if (!isCurrentPage)
+            currentPage = App.Current.Windows.LastOrDefault().Page as ContentPage;
+
         if (currentPage?.Content is Layout layout)
         {
             absoluteLayout.Children.Add(toast);

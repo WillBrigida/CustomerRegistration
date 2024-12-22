@@ -9,13 +9,14 @@ public partial class CustomerDetailPage : ContentPage
 
     private async void Entry_TextChanged(object sender, TextChangedEventArgs e)
     {
-		var label = (Label)sender;
-		if(!(int.TryParse(e.NewTextValue, out int value)))
+		if(!int.TryParse(e.NewTextValue, out int value))
 		{
-			await Shell.Current.ToastAlert("Apenas números");
-			label.Text = new string(label.Text.Where(char.IsDigit).ToArray());
+			if(!string.IsNullOrEmpty((sender as Entry)!.Text))
+				await Shell.Current.ToastAlert("Valor inválido. Informe uma idade válida", isCurrentPage: false);
+
+			(sender as Entry)!.Text = string.Empty;
+
 		}
 		
-
     }
 }

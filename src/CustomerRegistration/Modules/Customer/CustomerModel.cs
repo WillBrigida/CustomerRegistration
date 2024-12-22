@@ -2,7 +2,7 @@ using System;
 
 namespace CustomerRegistration.Modules.Customer;
 
-public class CustomerModel : Teste
+public class CustomerModel : Customer
 {
     public string? Name { get; set; }
     public string? Lastname { get; set; }
@@ -11,7 +11,7 @@ public class CustomerModel : Teste
 
 }
 
-public class Teste
+public class Customer
 {
     public int Id { get; set; }
 
